@@ -39,6 +39,8 @@ from ._view_socketio import socket_io
 from ._view_urlencoded import urlencoded
 from ._view_wbxml import wbxml
 from ._view_xml_html import xml_html
+from ._view_protobuf import protobuf
+from ._view_connect_protobuf import connect_protobuf
 from .base import View
 import mitmproxy_rs.contentviews
 from mitmproxy import flow
@@ -139,6 +141,8 @@ _views: list[Contentview] = [
     json_view,
     mqtt,
     multipart,
+    protobuf,
+    connect_protobuf,
     query,
     raw,
     socket_io,
