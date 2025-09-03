@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._view_protobuf import protobuf
 
 import importlib
 import json
@@ -232,7 +233,7 @@ class ConnectProtobufContentview(Contentview):
 
             # Prefer protobuf view if available, else fall back to auto detection.
             try:
-                subview = cv.registry["protobuf"]
+                subview = protobuf
             except KeyError:
                 subview = cv.registry.get_view(content_bytes, metadata)
             # Make per-frame rendering resilient: if protobuf view fails, try auto.
