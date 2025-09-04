@@ -155,6 +155,9 @@ for view in _views:
 for name in mitmproxy_rs.contentviews.__all__:
     if name.startswith("_"):
         continue
+    # Skip Rust protobuf views to use Python implementation instead
+    if "protobuf" in name.lower():
+        continue
     cv = getattr(mitmproxy_rs.contentviews, name)
     if isinstance(cv, Contentview) and not isinstance(cv, type):
         registry.register(cv)
