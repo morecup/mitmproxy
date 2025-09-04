@@ -46,6 +46,25 @@ export function ConnectionInfo({ conn }: ConnectionInfoProps) {
         <table className="connection-table">
             <tbody>
                 {address_info}
+                {!("address" in conn) && (conn as Client).process_name ? (
+                    <tr>
+                        <td>Process:</td>
+                        <td>
+                            {(conn as Client).process_name}
+                            {typeof (conn as Client).process_pid === "number"
+                                ? ` (${(conn as Client).process_pid})`
+                                : ""}
+                        </td>
+                    </tr>
+                ) : null}
+                {!("address" in conn) &&
+                !(conn as Client).process_name &&
+                typeof (conn as Client).process_pid === "number" ? (
+                    <tr>
+                        <td>Process:</td>
+                        <td>PID {(conn as Client).process_pid}</td>
+                    </tr>
+                ) : null}
                 {conn.sni ? (
                     <tr>
                         <td>

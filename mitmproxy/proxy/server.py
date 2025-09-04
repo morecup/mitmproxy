@@ -12,6 +12,8 @@ import asyncio
 import collections
 import logging
 import time
+import os
+import re
 from collections.abc import Awaitable
 from collections.abc import Callable
 from collections.abc import MutableMapping
@@ -43,6 +45,20 @@ from mitmproxy.utils import human
 from mitmproxy.utils.data import pkg_data
 
 logger = logging.getLogger(__name__)
+
+# Optional dependencies for process resolution on Windows.
+try:  # pragma: no cover - optional import
+    import psutil  # type: ignore
+except Exception:  # pragma: no cover - psutil not available
+    psutil = None  # type: ignore
+
+try:  # pragma: windows no cover - optional, may require pydivert which may be absent
+    if os.name == "nt":
+        from mitmproxy.platform import windows as platform_windows  # type: ignore
+    else:  # pragma: no cover - non-windows
+        platform_windows = None  # type: ignore
+except Exception:  # pragma: no cover - pydivert or other import failures
+    platform_windows = None  # type: ignore
 
 TCP_TIMEOUT = 60 * 10
 UDP_TIMEOUT = 20
@@ -479,6 +495,64 @@ class LiveConnectionHandler(ConnectionHandler, metaclass=abc.ABCMeta):
             proxy_mode=mode,
             state=ConnectionState.OPEN,
         )
+        # Best-effort: Determine originating process info on Windows for local clients.
+        # We map the client's (ip, port) -> PID using either Windows' TCP table or psutil as fallback.
+        try:
+            if os.name == "nt" and client.peername and client.sockname:
+                lip, lport = client.peername
+                rip, rport = client.sockname
+                # Normalize IPv4-mapped IPv6 address to plain IPv4 for Windows TCP table lookup.
+                # Example: "::ffff:127.0.0.1" -> "127.0.0.1"
+                if lip.startswith("::ffff:"):
+                    m = re.match(r"^::ffff:(\d+\.\d+\.\d+\.\d+)$", lip)
+                    if m:
+                        lip = m.group(1)
+                    else:
+                        lip = lip.replace("::ffff:", "", 1)
+                # 1) Try Windows API table if importable without extra deps.
+                pid: int | None = None
+                if platform_windows is not None:  # type: ignore
+                    try:
+                        tbl = platform_windows.TcpConnectionTable()  # type: ignore[attr-defined]
+                        tbl.refresh()
+                        pid = tbl.get((lip, lport))
+                    except Exception:
+                        pid = None
+                # 2) Fallback to psutil scan if available.
+                if pid is None and psutil is not None:  # type: ignore
+                    try:
+                        for c in psutil.net_connections(kind="tcp"):  # type: ignore[attr-defined]
+                            la = getattr(c, "laddr", None)
+                            ra = getattr(c, "raddr", None)
+                            if la and ra:
+                                try:
+                                    la_ip, la_port = la
+                                    ra_ip, ra_port = ra
+                                except Exception:
+                                    continue
+                                if la_ip == lip and la_port == lport and ra_ip == rip and ra_port == rport:
+                                    pid = c.pid  # type: ignore[attr-defined]
+                                    break
+                    except Exception:
+                        pid = None
+                if pid:
+                    client.process_pid = pid
+                    # Resolve process name: first try Windows API helper (no psutil), then psutil as fallback.
+                    resolved_name: str | None = None
+                    if platform_windows is not None and hasattr(platform_windows, "get_process_name"):  # type: ignore[attr-defined]
+                        try:
+                            resolved_name = platform_windows.get_process_name(pid)  # type: ignore[attr-defined]
+                        except Exception:
+                            resolved_name = None
+                    if not resolved_name and psutil is not None:
+                        try:
+                            resolved_name = psutil.Process(pid).name()  # type: ignore[attr-defined]
+                        except Exception:
+                            resolved_name = None
+                    client.process_name = resolved_name
+        except Exception:
+            # Never fail connection setup because of process resolution issues.
+            pass
         context = Context(client, options)
         super().__init__(context)
         self.transports[client] = ConnectionIO(

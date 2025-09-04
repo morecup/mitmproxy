@@ -263,6 +263,39 @@ class TcpConnectionTable(collections.abc.Mapping):
             )
 
 
+def get_process_name(pid: int) -> str | None:
+    """Best-effort: Return the executable name for the given PID using Windows APIs.
+    This avoids a hard dependency on psutil. Returns None on any error.
+    """
+    try:
+        PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+        handle = ctypes.windll.kernel32.OpenProcess(  # type: ignore[attr-defined]
+            PROCESS_QUERY_LIMITED_INFORMATION, False, pid
+        )
+        if not handle:
+            return None
+        try:
+            # Try with a moderately sized buffer and grow a few times if needed.
+            size = ctypes.wintypes.DWORD(512)
+            for _ in range(3):
+                buf = ctypes.create_unicode_buffer(size.value)
+                ok = ctypes.windll.kernel32.QueryFullProcessImageNameW(  # type: ignore[attr-defined]
+                    handle, 0, buf, ctypes.byref(size)
+                )
+                if ok:
+                    path = buf.value
+                    return os.path.basename(path) if path else None
+                # If the buffer was insufficient, size may indicate required length.
+                # Grow and retry.
+                if size.value <= buf._length_:
+                    size = ctypes.wintypes.DWORD(buf._length_ * 2)
+            return None
+        finally:
+            ctypes.windll.kernel32.CloseHandle(handle)  # type: ignore[attr-defined]
+    except Exception:
+        return None
+
+
 class Redirect(threading.Thread):
     daemon = True
     windivert: pydivert.WinDivert

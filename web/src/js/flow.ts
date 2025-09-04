@@ -63,6 +63,9 @@ export interface Client extends Connection {
     peername: Address;
     sockname: Address;
     timestamp_start: number;
+    // Windows-only best-effort fields, present if backend resolved them
+    process_name?: string;
+    process_pid?: number;
 }
 
 export interface Server extends Connection {

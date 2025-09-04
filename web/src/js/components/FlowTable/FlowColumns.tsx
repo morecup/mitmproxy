@@ -129,6 +129,23 @@ export const status: FlowColumn = ({ flow }) => {
 };
 status.headerName = "Status";
 
+export const process: FlowColumn = ({ flow }) => {
+    const name = flow.client_conn.process_name;
+    const pid = flow.client_conn.process_pid;
+    const text = name
+        ? `${name}${pid !== undefined && pid !== null ? ` (${pid})` : ""}`
+        : pid !== undefined && pid !== null
+          ? `PID ${pid}`
+          : "";
+    return (
+        <td className="col-process" title={text || undefined}>
+            {text}
+        </td>
+    );
+};
+process.headerName = "Process";
+
+
 export const size: FlowColumn = ({ flow }) => {
     return <td className="col-size">{formatSize(getTotalSize(flow))}</td>;
 };
@@ -200,6 +217,7 @@ const FlowColumns: { [key in keyof typeof sortFunctions]: FlowColumn } = {
     icon,
     index,
     method,
+    process,
     version,
     path,
     quickactions,

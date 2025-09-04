@@ -180,6 +180,12 @@ class Client(Connection):  # type: ignore[override]
     sockname: Address
     """The local address we received this connection on."""
 
+    process_pid: int | None = None
+    """The originating process ID on the local machine (Windows only when available)."""
+
+    process_name: str | None = None
+    """The originating process name on the local machine (Windows only when available)."""
+
     mitmcert: certs.Cert | None = None
     """
     The certificate used by mitmproxy to establish TLS with the client.

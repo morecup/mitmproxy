@@ -3,6 +3,7 @@ AVAILABLE_WEB_COLUMNS = [
     "icon",
     "index",
     "method",
+    "process",
     "version",
     "path",
     "quickactions",

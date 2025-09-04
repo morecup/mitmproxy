@@ -104,6 +104,9 @@ def flow_to_json(flow: mitmproxy.flow.Flow) -> dict:
             "timestamp_start": flow.client_conn.timestamp_start,
             "timestamp_tls_setup": flow.client_conn.timestamp_tls_setup,
             "timestamp_end": flow.client_conn.timestamp_end,
+            # Windows-only best-effort fields if available
+            "process_name": getattr(flow.client_conn, "process_name", None),
+            "process_pid": getattr(flow.client_conn, "process_pid", None),
         }
 
     if flow.server_conn:

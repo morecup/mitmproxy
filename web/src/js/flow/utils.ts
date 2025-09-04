@@ -288,6 +288,17 @@ export const sortFunctions = {
     index: () => 0, // this is broken right now - ideally we switch to uuid7s on the backend and use that.
     path: mainPath,
     method: getMethod,
+    process: (flow: Flow) => {
+        const name = flow.client_conn.process_name;
+        const pid = flow.client_conn.process_pid;
+        if (name && name.length) {
+            return name.toLowerCase();
+        }
+        if (pid !== undefined && pid !== null) {
+            return `pid:${String(pid).padStart(10, "0")}`;
+        }
+        return "";
+    },
     version: getVersion,
     status: statusCode,
     size: getTotalSize,
