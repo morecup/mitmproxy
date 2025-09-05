@@ -6,40 +6,100 @@ exports[`FlowTable Component should render correctly 1`] = `
     class="flow-table"
   >
     <table>
+      <colgroup>
+        <col
+          class="col-tls"
+        />
+        <col
+          class="col-icon"
+        />
+        <col
+          class="col-path"
+        />
+        <col
+          class="col-method"
+        />
+        <col
+          class="col-process"
+        />
+        <col
+          class="col-status"
+        />
+        <col
+          class="col-size"
+        />
+        <col
+          class="col-time"
+        />
+        <col
+          class="col-quickactions"
+        />
+      </colgroup>
       <thead
         style="transform: translateY(0px);"
       >
         <tr>
           <th
             class="col-tls"
-          />
+          >
+            <span
+              class="col-resizer"
+            />
+          </th>
           <th
             class="col-icon"
-          />
+          >
+            <span
+              class="col-resizer"
+            />
+          </th>
           <th
             class="col-path sort-desc"
           >
             Path
+            <span
+              class="col-resizer"
+            />
           </th>
           <th
             class="col-method"
           >
             Method
+            <span
+              class="col-resizer"
+            />
+          </th>
+          <th
+            class="col-process"
+          >
+            Process
+            <span
+              class="col-resizer"
+            />
           </th>
           <th
             class="col-status"
           >
             Status
+            <span
+              class="col-resizer"
+            />
           </th>
           <th
             class="col-size"
           >
             Size
+            <span
+              class="col-resizer"
+            />
           </th>
           <th
             class="col-time"
           >
             Time
+            <span
+              class="col-resizer"
+            />
           </th>
           <th
             class="col-quickactions"
@@ -79,6 +139,9 @@ exports[`FlowTable Component should render correctly 1`] = `
           >
             WSS
           </td>
+          <td
+            class="col-process"
+          />
           <td
             class="col-status"
             style="color: darkgreen;"
@@ -129,6 +192,9 @@ exports[`FlowTable Component should render correctly 1`] = `
             TCP
           </td>
           <td
+            class="col-process"
+          />
+          <td
             class="col-status"
           />
           <td
@@ -163,40 +229,100 @@ exports[`FlowTable Component should scroll current selection into view 1`] = `
       class="flow-table"
     >
       <table>
+        <colgroup>
+          <col
+            class="col-tls"
+          />
+          <col
+            class="col-icon"
+          />
+          <col
+            class="col-path"
+          />
+          <col
+            class="col-method"
+          />
+          <col
+            class="col-process"
+          />
+          <col
+            class="col-status"
+          />
+          <col
+            class="col-size"
+          />
+          <col
+            class="col-time"
+          />
+          <col
+            class="col-quickactions"
+          />
+        </colgroup>
         <thead
           style="transform: translateY(0px);"
         >
           <tr>
             <th
               class="col-tls"
-            />
+            >
+              <span
+                class="col-resizer"
+              />
+            </th>
             <th
               class="col-icon"
-            />
+            >
+              <span
+                class="col-resizer"
+              />
+            </th>
             <th
               class="col-path sort-desc"
             >
               Path
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-method"
             >
               Method
+              <span
+                class="col-resizer"
+              />
+            </th>
+            <th
+              class="col-process"
+            >
+              Process
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-status"
             >
               Status
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-size"
             >
               Size
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-time"
             >
               Time
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-quickactions"
@@ -236,6 +362,9 @@ exports[`FlowTable Component should scroll current selection into view 1`] = `
             >
               WSS
             </td>
+            <td
+              class="col-process"
+            />
             <td
               class="col-status"
               style="color: darkgreen;"
@@ -286,6 +415,9 @@ exports[`FlowTable Component should scroll current selection into view 1`] = `
               TCP
             </td>
             <td
+              class="col-process"
+            />
+            <td
               class="col-status"
             />
             <td
@@ -321,40 +453,100 @@ exports[`FlowTable Component should scroll current selection into view 2`] = `
       class="flow-table"
     >
       <table>
+        <colgroup>
+          <col
+            class="col-tls"
+          />
+          <col
+            class="col-icon"
+          />
+          <col
+            class="col-path"
+          />
+          <col
+            class="col-method"
+          />
+          <col
+            class="col-process"
+          />
+          <col
+            class="col-status"
+          />
+          <col
+            class="col-size"
+          />
+          <col
+            class="col-time"
+          />
+          <col
+            class="col-quickactions"
+          />
+        </colgroup>
         <thead
           style="transform: translateY(128px);"
         >
           <tr>
             <th
               class="col-tls"
-            />
+            >
+              <span
+                class="col-resizer"
+              />
+            </th>
             <th
               class="col-icon"
-            />
+            >
+              <span
+                class="col-resizer"
+              />
+            </th>
             <th
               class="col-path sort-desc"
             >
               Path
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-method"
             >
               Method
+              <span
+                class="col-resizer"
+              />
+            </th>
+            <th
+              class="col-process"
+            >
+              Process
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-status"
             >
               Status
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-size"
             >
               Size
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-time"
             >
               Time
+              <span
+                class="col-resizer"
+              />
             </th>
             <th
               class="col-quickactions"
@@ -394,6 +586,9 @@ exports[`FlowTable Component should scroll current selection into view 2`] = `
             >
               QUERY
             </td>
+            <td
+              class="col-process"
+            />
             <td
               class="col-status"
               style="color: darkgreen;"
@@ -443,6 +638,9 @@ exports[`FlowTable Component should scroll current selection into view 2`] = `
             >
               UDP
             </td>
+            <td
+              class="col-process"
+            />
             <td
               class="col-status"
             />

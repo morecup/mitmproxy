@@ -4,6 +4,7 @@ import * as autoscroll from "./helpers/AutoScroll";
 import { calcVScroll, VScroll } from "./helpers/VirtualScroll";
 import FlowTableHead from "./FlowTable/FlowTableHead";
 import FlowRow from "./FlowTable/FlowRow";
+import * as columns from "./FlowTable/FlowColumns";
 import { Flow } from "../flow";
 import { RootState } from "../ducks";
 
@@ -14,6 +15,8 @@ type FlowTableProps = {
     selectedIds: Set<string>;
     onlySelectedId: string | false;
     firstSelectedIndex: number | undefined;
+    displayColumnNames: string[];
+    columnWidths: Record<string, number>;
 };
 
 type FlowTableState = {
@@ -124,6 +127,10 @@ export class PureFlowTable extends React.Component<
     render() {
         const { vScroll, viewportTop } = this.state;
         const { flowView, selectedIds, highlightedIds } = this.props;
+        const displayColumns = this.props.displayColumnNames
+            .map((x) => (columns as any)[x])
+            .filter((x) => x)
+            .concat((columns as any).quickactions);
 
         return (
             <div
@@ -132,6 +139,19 @@ export class PureFlowTable extends React.Component<
                 ref={this.viewport}
             >
                 <table>
+                    <colgroup>
+                        {displayColumns.map((Column) => {
+                            const name: string = Column.name;
+                            const width = this.props.columnWidths?.[name];
+                            return (
+                                <col
+                                    key={name}
+                                    className={`col-${name}`}
+                                    style={width ? { width } : undefined}
+                                />
+                            );
+                        })}
+                    </colgroup>
                     <thead
                         ref={this.head}
                         style={{ transform: `translateY(${viewportTop}px)` }}
@@ -165,4 +185,6 @@ export default connect((state: RootState) => ({
     onlySelectedId:
         state.flows.selected.length === 1 && state.flows.selected[0].id,
     firstSelectedIndex: state.flows._viewIndex.get(state.flows.selected[0]?.id),
+    displayColumnNames: state.options.web_columns,
+    columnWidths: state.ui.columns,
 }))(PureFlowTable);

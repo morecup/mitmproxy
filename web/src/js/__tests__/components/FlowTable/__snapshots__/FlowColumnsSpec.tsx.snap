@@ -363,6 +363,20 @@ exports[`should render columns: path 1`] = `
 </DocumentFragment>
 `;
 
+exports[`should render columns: process 1`] = `
+<DocumentFragment>
+  <table>
+    <tbody>
+      <tr>
+        <td
+          class="col-process"
+        />
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
+`;
+
 exports[`should render columns: quickactions 1`] = `
 <DocumentFragment>
   <table>

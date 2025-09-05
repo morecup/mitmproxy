@@ -7,34 +7,65 @@ exports[`FlowTableHead Component 1`] = `
       <tr>
         <th
           class="col-tls"
-        />
+        >
+          <span
+            class="col-resizer"
+          />
+        </th>
         <th
           class="col-icon"
-        />
+        >
+          <span
+            class="col-resizer"
+          />
+        </th>
         <th
           class="col-path sort-desc"
         >
           Path
+          <span
+            class="col-resizer"
+          />
         </th>
         <th
           class="col-method"
         >
           Method
+          <span
+            class="col-resizer"
+          />
+        </th>
+        <th
+          class="col-process"
+        >
+          Process
+          <span
+            class="col-resizer"
+          />
         </th>
         <th
           class="col-status"
         >
           Status
+          <span
+            class="col-resizer"
+          />
         </th>
         <th
           class="col-size"
         >
           Size
+          <span
+            class="col-resizer"
+          />
         </th>
         <th
           class="col-time"
         >
           Time
+          <span
+            class="col-resizer"
+          />
         </th>
         <th
           class="col-quickactions"

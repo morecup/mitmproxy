@@ -37,6 +37,9 @@ exports[`FlowRow 1`] = `
           WSS
         </td>
         <td
+          class="col-process"
+        />
+        <td
           class="col-status"
           style="color: darkgreen;"
         >
@@ -96,6 +99,9 @@ exports[`FlowRow 1`] = `
         >
           QUERY
         </td>
+        <td
+          class="col-process"
+        />
         <td
           class="col-status"
           style="color: darkgreen;"
