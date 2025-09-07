@@ -12,13 +12,8 @@ sys.path.insert(0, os.path.dirname(__file__))
 from mitmproxy.tools.main import mitmweb
 
 if __name__ == "__main__":
-    # 设置调试参数
-    sys.argv = [
-        "mitmweb",
-        "--listen-port", "8080",
-        "--web-port", "8081",
-        # 添加其他需要的参数
-    ]
+    # 将脚本名替换为 mitmweb，保留所有传入的参数
+    sys.argv[0] = "mitmweb"
     
-    # 启动mitmweb
+    # 启动mitmweb，传递所有命令行参数
     mitmweb()
